@@ -1,0 +1,59 @@
+buildscript {
+    dependencies {
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.4.1'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+apply plugin: 'java'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile project(':module-scala')
+}
+
+apply plugin: 'javafx-gradle-plugin'
+
+
+jfx {
+    verbose = true
+    mainClass = "org.edla.VersatiList"
+    vendor = "edla.org"
+}
+
+subprojects {
+
+	apply plugin: 'java'
+
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        testCompile 'junit:junit:4.12'
+    }
+
+    version = '1.0'
+
+    jar {
+        manifest.attributes provider: 'gradle'
+    }
+}
+
+//// inter-module dependencies
+project(':main') {
+    dependencies {
+        compile project(':module-scala')
+    }
+}

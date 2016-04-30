@@ -1,0 +1,21 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.javafxports:jfxmobile-plugin:1.0.8'
+    }
+}
+
+apply plugin: 'org.javafxports.jfxmobile'
+
+mainClassName = 'org.edla.VersatiList'
+
+jfxmobile {
+    ios {
+        iosSignIdentity        = 'iPhone Developer: olivier.roland@edla.org (54MF5H2VH5)'
+        iosProvisioningProfile = 'a65bf142-9013-43f4-a3c1-de2c2a863833'
+        forceLinkClasses = ['org.edla.**.*']
+        infoPList = file('src/ios/Info.plist')
+    }
+}

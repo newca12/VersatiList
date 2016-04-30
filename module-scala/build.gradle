@@ -1,0 +1,12 @@
+project(':module-scala')  {
+	apply plugin: 'scala'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+		compile 'org.scala-lang:scala-library:2.11.8'
+        testCompile 'junit:junit:4.12'
+    }
+}

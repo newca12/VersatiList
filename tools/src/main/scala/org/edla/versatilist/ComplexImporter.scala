@@ -81,8 +81,8 @@ object ComplexImporter extends App {
     }
   }
   //for (ingredient <- allIngredients) println(ingredient)
-  //println(allIngredients.size)
-  //println(recettes)
+  println(s"${allIngredients.size} ingredients found")
+  println(s"${recettes.size} recipes parsed")
   //recettes foreach( r => if(r._2.contains("jambon")) println(r._1))
   //println(recettes.filter( r => r._2.exists(str => str.contains("jambon"))))
 
@@ -115,8 +115,10 @@ object ComplexImporter extends App {
     val title = table.getRow(0).getCell(1).text()
     val row = table.getRow(2)
     val cell = row.getCell(1)
+    println("+"+cell.text()+"+")
     val ingredients = cell.text().
-      replaceAll(("(HYPERLINK) \".*\""), "").
+      replace("œ","oe").
+      replaceAll(("(HYPERLINK) \".*?\""), "").
       replaceAll("""(?:\d*[.,])?\d+( à (?:\d*[.,])?\d+)?(½)?\b (g |gr |l |cc|cl|cm|cs|dl|kg|ml)?( )*(de |d’|d')?(ou )*""", "")
       .split("[\u000B\u000D]").map(_.trim) // else ( "ANOMALIE" )
     (title, ingredients)

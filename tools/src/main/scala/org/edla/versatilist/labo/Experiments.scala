@@ -17,7 +17,7 @@ import java.io.File
 //http://stackoverflow.com/questions/15086474/how-to-retrieve-the-table-from-doc-file-using-apache-poi
 object Experiments extends App {
 
-  val root = "ROOT_DIRECTORY_TO_IMPORT/"
+  val root = "DOC_TO_IMPORT"
 
   /**
     * Get a recursive listing of all files underneath the given directory.
@@ -54,22 +54,33 @@ object Experiments extends App {
     val fs = new POIFSFileSystem(fis)
     val doc = new HWPFDocument(fs)
     val range = doc.getRange
+    println("range.numParagraphs():"+range.numParagraphs())
     for (i <- 0 until range.numParagraphs()) {
       val par = range.getParagraph(i)
-      //println(par.text())
+      println(s"range.getParagraph($i):${par.text()}")
     }
     val tablePar = range.getParagraph(0)
     if (tablePar.isInTable) {
       val table = range.getTable(tablePar)
+      println("numRows:"+table.numRows())
       for (rowIdx <- 0 until table.numRows()) {
         val row = table.getRow(rowIdx)
-        println("row " + (rowIdx + 1) + ",is table header: " + row.isTableHeader)
+        println("row:"+rowIdx + row.isTableHeader)
+        println("numCells:"+row.numCells())
         for (colIdx <- 0 until row.numCells()) {
           val cell = row.getCell(colIdx)
-          println("cell:"+colIdx+":"+cell.text)
+          println("col:"+colIdx+":"+row.isTableHeader+":"+cell)
+          println("cell.numParagraphs():"+cell.numParagraphs())
+          println("cell.numSections()"+cell.numSections())
+          for (i <- 0 until cell.numParagraphs()) {
+            println(s"cell.getParagraph($i)")
+            println(cell.getParagraph(i).text())
+          }
+          println("cell.getParagraph(0).text():"+cell.getParagraph(0).text())
+          println("cell.text:"+cell.text)
         }
       }
-    }
+    } else println("tablePar not in table")
 
   }
 }

@@ -42,7 +42,7 @@ object Serializer {
 object ComplexImporter extends App {
 
   val root = "ROOT_DIRECTORY_TO_IMPORT/"
-  
+
   /** Convert from bytes into hex string. */
   def bytesToHex(bytes: List[Byte]) =
     bytes.map { b => String.format("%02X", java.lang.Byte.valueOf(b)) }.mkString(" ")
@@ -69,18 +69,19 @@ object ComplexImporter extends App {
       try {
         println(file)
         val (title,ingredients) = getIngredients(file)
+        println("title:"+title)
         val recipeTitle = (file diff root take(2))+title.trim
-        recettes += (recipeTitle -> ingredients.toSet)
+        recettes += (recipeTitle -> ingredients)
         for (ingredient <- ingredients) { 
           allIngredients += ingredient  
-          println("-"+ingredient)
+          //println("-"+ingredient)
         }
       } catch {
         case e: IllegalArgumentException => println("XXX ERROR")
       }
     }
   }
-  //for (ingredient <- allIngredients) println(ingredient)
+  //for (ingredient <- allIngredients) println("-"+ingredient)
   //println(allIngredients.size)
   //println(recettes)
   //recettes foreach( r => if(r._2.contains("jambon")) println(r._1))
@@ -99,7 +100,8 @@ object ComplexImporter extends App {
   println(recettesOut)
 */
 
-  def getIngredients(fileName: String): (String, Array[String]) = {
+  def getIngredients(fileName: String): (String, Set[String]) = {
+    var ingredients: Set[String] = Set()
     val fis = new FileInputStream(fileName)
     val fs = new POIFSFileSystem(fis)
     val doc = new HWPFDocument(fs)
@@ -115,10 +117,17 @@ object ComplexImporter extends App {
     val title = table.getRow(0).getCell(1).text()
     val row = table.getRow(2)
     val cell = row.getCell(1)
-    val ingredients = cell.text().
-      replaceAll(("(HYPERLINK) \".*\""), "").
-      replaceAll("""(?:\d*[.,])?\d+( à (?:\d*[.,])?\d+)?(½)?\b (g |gr |l |cc|cl|cm|cs|dl|kg|ml)?( )*(de |d’|d')?(ou )*""", "")
-      .split("[\u000B\u000D]").map(_.trim) // else ( "ANOMALIE" )
+    for (i <- 0 until cell.numParagraphs()) {
+      val ingredient = cell.getParagraph(i).text().
+        replace("facultatif","").
+        replace(":","").
+        replace("œ","oe").
+        replaceAll(("(HYPERLINK) \".*\""), "").trim
+      if ((!ingredient.isEmpty) && ingredient.size != 1) {
+        //println("-"+ingredient+"-")
+        ingredients += ingredient
+      }
+    }
     (title, ingredients)
   }
 

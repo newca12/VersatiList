@@ -13,7 +13,7 @@ import scala.collection.JavaConversions._
 
 object SimpleImporter extends App {
 
-  val FilePath = "DOC_TO_IMPORT"
+  val FilePath = "/Users/hack/tmp2/VersatiList/soupe à l'ail.doc"
   var fis: FileInputStream = null
   if (FilePath.substring(FilePath.length - 1) == "x") {
     try {

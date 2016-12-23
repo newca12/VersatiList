@@ -17,6 +17,7 @@ import java.io.File
 //http://stackoverflow.com/questions/15086474/how-to-retrieve-the-table-from-doc-file-using-apache-poi
 object Experiments extends App {
 
+  //val root = "./RECETTES/6_DESSERT/GATEAUX/"
   val root = "ROOT_DIRECTORY_TO_IMPORT/"
 
   /**
@@ -44,6 +45,7 @@ object Experiments extends App {
       }
       catch {
         case e: IllegalArgumentException => println("XXX ERROR")
+        case e:Throwable => println("YYY ERROR:"+e.getMessage)
       }
     }
   }
@@ -56,7 +58,9 @@ object Experiments extends App {
     val range = doc.getRange
     for (i <- 0 until range.numParagraphs()) {
       val par = range.getParagraph(i)
-      //println(par.text())
+      println(s"START $i=======")
+      println(par.text())
+      println(s"END $i=======")
     }
     val tablePar = range.getParagraph(0)
     if (tablePar.isInTable) {
@@ -69,7 +73,7 @@ object Experiments extends App {
           println("cell:"+colIdx+":"+cell.text)
         }
       }
-    }
+    } else println("not in table")
 
   }
 }

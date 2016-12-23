@@ -1,6 +1,12 @@
 buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
     dependencies {
-        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.4.1'
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.7.0'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
     }
 
     repositories {
@@ -9,6 +15,7 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 
 repositories {
@@ -20,7 +27,9 @@ dependencies {
 }
 
 apply plugin: 'javafx-gradle-plugin'
+apply plugin: 'com.github.johnrengelman.shadow'
 
+    mainClassName = "org.edla.VersatiList"
 
 jfx {
     verbose = true

@@ -1,9 +1,12 @@
 buildscript {
     repositories {
+        maven {
+            url 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
         jcenter()
     }
     dependencies {
-        classpath 'org.javafxports:jfxmobile-plugin:1.0.8'
+        classpath 'org.javafxports:jfxmobile-plugin:1.3.1'
     }
 }
 
@@ -14,8 +17,11 @@ mainClassName = 'org.edla.VersatiList'
 jfxmobile {
     ios {
         iosSignIdentity        = 'iPhone Developer: olivier.roland@edla.org (54MF5H2VH5)'
-        iosProvisioningProfile = 'a65bf142-9013-43f4-a3c1-de2c2a863833'
+        iosProvisioningProfile = '465aec85-9746-4c1a-956a-a684d457f586'
         forceLinkClasses = ['org.edla.**.*']
         infoPList = file('src/ios/Info.plist')
+        //Custom robovmVersion is not supported
+        //https://bitbucket.org/javafxports/javafxmobile-plugin/issues/49/cant-use-robovm-150
+        //robovmVersion = '2.3.0'
     }
 }

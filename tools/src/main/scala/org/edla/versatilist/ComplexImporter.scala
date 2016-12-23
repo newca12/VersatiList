@@ -41,6 +41,7 @@ object Serializer {
 //http://stackoverflow.com/questions/15086474/how-to-retrieve-the-table-from-doc-file-using-apache-poi
 object ComplexImporter extends App {
 
+  //val root = "./RECETTES/"
   val root = "ROOT_DIRECTORY_TO_IMPORT/"
   
   /** Convert from bytes into hex string. */
@@ -66,18 +67,19 @@ object ComplexImporter extends App {
     val file = f.getAbsolutePath
     if (file.endsWith(".doc") && !file.contains("~") && !(file diff root).toLowerCase().contains("z_")) {
 
-      try {
+      //try {
         println(file)
         val (title,ingredients) = getIngredients(file)
         val recipeTitle = (file diff root take(2))+title.trim
+        println(recipeTitle)
         recettes += (recipeTitle -> ingredients.toSet)
         for (ingredient <- ingredients) { 
           allIngredients += ingredient  
           println("-"+ingredient)
         }
-      } catch {
-        case e: IllegalArgumentException => println("XXX ERROR")
-      }
+      //} catch {
+      //  case e: IllegalArgumentException => println("XXX ERROR")
+      //}
     }
   }
   //for (ingredient <- allIngredients) println(ingredient)

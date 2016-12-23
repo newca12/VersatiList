@@ -19,7 +19,7 @@ class VersatiList extends javafx.application.Application {
 
   override def start(stage: Stage): Unit =
     try {
-      stage.setTitle("VersatiList 0.3a")
+      stage.setTitle("VersatiList 0.4a")
       loader.load[Parent]()
       stage.setScene(new Scene(loader.getRoot[Parent]))
       stage.show()

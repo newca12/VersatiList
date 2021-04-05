@@ -25,7 +25,7 @@ or built it yourself :
 ```
 rustup target add wasm32-unknown-unknown
 cargo install wasm-bindgen-cli
- cargo build --target wasm32-unknown-unknown
+cargo build --target wasm32-unknown-unknown
 wasm-bindgen target/wasm32-unknown-unknown/debug/versatilist.wasm --out-dir VersatiList --web
 ```
 

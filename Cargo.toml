@@ -2,8 +2,10 @@
 name = "versatilist"
 version = "0.1.0"
 authors = ["Olivier ROLAND <newca12@users.noreply.github.com>"]
-description = "VersatiList is a cross platform dynamic list filter"
+description = "A cross platform dynamic list filter"
+homepage = "https://github.com/newca12/VersatiList"
 edition = "2018"
+license = "GPL-3.0-or-later"
 
 [dependencies]
 iced = { version = "0.3.0", features = ["glow", "debug"] }
